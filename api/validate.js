@@ -9,8 +9,8 @@ export default async function handler(req, res) {
         return res.status(400).json({ allowed: false });
     }
 
-    const SUPABASE_URL = "https://YOUR_PROJECT.supabase.co";
-    const SUPABASE_KEY = "YOUR_ANON_KEY";
+    const SUPABASE_URL = "https://rptocmhpdkeuditggzfq.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwdG9jbWhwZGtldWRpdGdnemZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2OTcyODUsImV4cCI6MjA5MjI3MzI4NX0.N9x7Ad763FRnerJuPPc-mxm2bvyiWRh0uomAg5XMI4g";
 
     const response = await fetch(
         `${SUPABASE_URL}/rest/v1/licenses?place_id=eq.${placeId}&product_id=eq.${productId}&active=eq.true`,
