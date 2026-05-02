@@ -7,26 +7,19 @@ export default async function handler(req, res) {
   
   const { placeId, productId, ownerId, secret } = req.body;
 
-  // Sikkerhetssjekk
   if (secret !== process.env.ROBLOX_SECRET) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
   const { data, error } = await supabase
     .from('licenses')
-    .insert([
-      { 
+    .insert([{ 
         place_id: placeId, 
         product_id: productId, 
-        owner_id: ownerId, // Nå lagres UserId til kjøperen
+        owner_id: ownerId, 
         active: true 
-      }
-    ]);
+    }]);
 
-  if (error) {
-    console.error(error);
-    return res.status(500).json({ error: error.message });
-  }
-
+  if (error) return res.status(500).json({ error: error.message });
   return res.status(200).json({ success: true });
 }
