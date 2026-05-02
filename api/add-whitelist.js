@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Initialiserer Supabase-klienten med miljøvariablene dine
+// Initialiserer Supabase-klienten med miljøvariablene dine-
 const supabase = createClient(
   process.env.SUPABASE_URL, 
   process.env.SUPABASE_SERVICE_ROLE_KEY
