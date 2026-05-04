@@ -1,18 +1,26 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+// ENDRET: Bruker nå SUPABASE_SERVICE_ROLE_KEY
+const supabase = createClient(
+    process.env.SUPABASE_URL, 
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 export default async function handler(req, res) {
     try {
         const { owner_id, secret } = req.query;
 
-        if (secret !== "Velor_Secure_77!_Access") {
-            return res.status(401).json({ error: "Unauthorized" });
+        // Sjekk mot ROBLOX_SECRET som du har i Vercel
+        if (secret !== process.env.ROBLOX_SECRET) {
+            return res.status(401).json({ error: "Uautorisert tilgang" });
         }
 
-        // ENDRET: Bruker nå 'licenses' tabellen
+        if (!owner_id) {
+            return res.status(400).json({ error: "Mangler owner_id" });
+        }
+
         const { data, error } = await supabase
-            .from('licenses') 
+            .from('licenses')
             .select('*')
             .eq('owner_id', owner_id);
 
@@ -20,6 +28,6 @@ export default async function handler(req, res) {
         
         return res.status(200).json(data || []);
     } catch (err) {
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({ error: "Server krasj: " + err.message });
     }
 }
